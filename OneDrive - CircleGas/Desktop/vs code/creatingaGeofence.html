@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+   
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin="anonymous"/>
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+   <div id = "map"></div>
+   <style type="text/css">
+   	#map{
+   		width: 100%;
+   		height: 100vh;
+   		 <body>
+   		 padding: 0;
+   		 margin: 0;
+   	}
+   </style>
+
+</head>
+<body>
+  <script type="text/javascript">
+    var geofense =[
+            [
+              37.001953125,
+              -1.0820889877063542
+            ],
+            [
+              37.5238037109375,
+              -1.0930733366239247
+            ],
+            [
+              38.2269287109375,
+              1.043643455908483
+            ],
+            [
+              35.123291015625,
+              0.2252191465717273
+            ],
+            [
+              37.001953125,
+              -1.0820889877063542
+            ]
+ ]; 
+ // var geofence declared  and assigned globally inorder to make it available everywhare in the code.
+ var poss;
+ // vatr position declared globally  but assignrd a value inside a function inorder to pass its value from function to function.
+   
+    navigator.geolocation.getCurrentPosition(pos);
+
+
+    function pos(position){
+
+     let lat=position.coords.latitude;
+     let long = position.coords.longitude;
+     let acc = position.coords.accuracy;
+    
+     position.toString(); 
+    
+    console.log(position);
+	let map= L.map("map").setView([lat,long],7);
+
+	  var marker = L.marker([lat, long],{draggable:true});
+	var popup = marker.bindPopup("the location is " + marker.getLatLng());
+ 
+	 circle = L.circle([lat,long],{radius: acc});
+	 var featureGroup=L.featureGroup([marker,popup,circle]).addTo(map);
+
+		 
+     
+
+	
+	var tile1 = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 900,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoiY2hyaXNwdXMiLCJhIjoiY2tpZXRraHlmMXdqdDJycnNkdXA5aWZwZyJ9.NLvszue65smDvUywC_OLgg'
+}).addTo(map);
+
+	 
+ 
+    var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+});
+   var  googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+});
+    var googleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+});
+  
+ var geojson = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              37.001953125,
+              -1.0820889877063542
+            ],
+            [
+              37.5238037109375,
+              -1.0930733366239247
+            ],
+            [
+              38.2269287109375,
+              1.043643455908483
+            ],
+            [
+              35.123291015625,
+              0.2252191465717273
+            ],
+            [
+              37.001953125,
+              -1.0820889877063542
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
+
+//L.geoJSON(geojson).addTo(map);
+
+ 
+L.geoJSON(geojson,{
+  style:function(feature){
+    return {
+      color : '#dc3545'    }
+  }
+}).addTo(map);
+
+
+  
+
+ alert(geofense.length)
+  
+ poss = [lat,long]
+alert1();
+}
+function alert1(point,Polygon){
+  var local = poss;
+ alert(poss)
+// alert(geojson.length)
+}
+</script>
+
+
+</body>
+</html> 
